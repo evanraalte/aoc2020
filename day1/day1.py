@@ -1,17 +1,20 @@
+import os
+import functools
+import itertools
+import operator
+
+
+def find2020(data,num_elements):
+    return functools.reduce(operator.mul, next(filter(lambda x: sum(x) == 2020, itertools.combinations(data,num_elements))),1)
+
 def part1(data):
-    for i in range(0,len(data)):
-        for j in range(i,len(data)):
-            if data[i] + data[j] == 2020:
-                return data[i] * data[j]
+    return find2020(data,2)
 
 def part2(data):
-    for i in range(0,len(data)):
-        for j in range(i,len(data)):
-            for k in range(j,len(data)):
-                if data[i] + data[j] + data[k] == 2020:
-                    return data[i] * data[j] * data[k]
+    return find2020(data,3)
 
-with open("day1.txt") as f:
+ex_path     = os.path.dirname(os.path.abspath(__file__))
+with open(os.path.join(ex_path,"day1.txt")) as f:
     data = [int(i) for i in f.read().splitlines()]   
     print(f"Part 1: {part1(data)}")
     print(f"Part 2: {part2(data)}")
