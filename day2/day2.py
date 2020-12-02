@@ -9,6 +9,6 @@ def part2(d):
 
 ex_path     = os.path.dirname(os.path.abspath(__file__))
 with open(os.path.join(ex_path,"day2.txt")) as f:
-    d = list(map(lambda x: re.search(r'(\d+)-(\d+) ([a-z]): ([a-z]+)',x).groups(),f.read().splitlines()))
+    d = re.findall(r'(\d+)-(\d+) ([a-z]): ([a-z]+)',f.read())
     print(f"Part 1: {part1(d)}")
     print(f"Part 2: {part2(d)}")
