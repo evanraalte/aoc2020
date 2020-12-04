@@ -20,15 +20,15 @@ checkers = {
 
 required = list(checkers.keys())[:-1]
 
-def part1(d):
-    return  len([x for x in map(lambda x: re.findall(r'([a-z]{3}):(#?\w+)',x),d) if all([ (t in map(lambda a: a[0],x)) for t in required ])])
+def part1(ds):
+    return len([True for d in ds if all([r in d.keys() for r in required])])
 
+def part2(ds):
+    return len([True for d in ds if all([r in d.keys() for r in required]) and all([checkers[k](v) for k,v in d.items()])])
 
-def part2(d):
-    return  len([x for x in map(lambda x: re.findall(r'([a-z]{3}):(#?\w+)',x),d) if all([ (t in map(lambda a: a[0],x)) for t in required ])  and all(map(lambda a: checkers[a[0]](a[1]),x))  ])
 
 ex_path     = os.path.dirname(os.path.abspath(__file__))
 with open(os.path.join(ex_path,"day4.txt")) as f:
-    d = f.read().split("\n\n")
+    d = [{a: b for (a,b) in re.findall(r'([a-z]{3}):(#?\w+)',x)} for x in f.read().split("\n\n")]
     print(f"Part 1: {part1(d)}")
     print(f"Part 2: {part2(d)}")
