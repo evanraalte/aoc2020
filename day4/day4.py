@@ -21,10 +21,10 @@ checkers = {
 required = list(checkers.keys())[:-1]
 
 def part1(ds):
-    return len([True for d in ds if all([r in d.keys() for r in required])])
+    return sum(1 for d in ds if all([r in d.keys() for r in required]))
 
 def part2(ds):
-    return len([True for d in ds if all([r in d.keys() for r in required]) and all([checkers[k](v) for k,v in d.items()])])
+    return sum(1 for d in ds if all([r in d.keys() for r in required]) and all([checkers[k](v) for k,v in d.items()]))
 
 
 ex_path     = os.path.dirname(os.path.abspath(__file__))
