@@ -6,13 +6,12 @@ def part1(d):
     pass
 def part2(d):
     rows = [e[0] for e in d]
-    cols = [e[1] for e in d]
-    seats = {}
-    for r in range(min(rows)+1,max(rows)-1+1):
-        for c in range(min(cols),max(cols)+1):
-            seats[(r,c)] = ((r,c) in d)
-    s =  list(seats.keys())[list(seats.values()).index(False)]
-    return mul(s)
+    tickets = [mul(e) for e in d]
+    seats   = range((min(rows)+1)*8,(max(rows)-1)*8)
+
+    return  (set(seats) & set(tickets)) ^ set(seats)
+    
+
 
 def to_row(s):
     return int(s.replace('F','0').replace('B','1'),2)
@@ -28,4 +27,3 @@ with open(os.path.join(ex_path,"day5.txt")) as f:
     d = [(to_row(a),to_col(b)) for x in f.read().split("\n") for (a,b) in re.findall(r'([FB]{7})([LR]{3})', x) ]
     print(f"Part 1: {part1(d)}")
     print(f"Part 2: {part2(d)}")
-    pass
