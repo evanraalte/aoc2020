@@ -2,28 +2,23 @@ import os
 import re
 
 def part1(d):
-    return max([mul(e) for e in d])
-    pass
+    return max(d)
+
 def part2(d):
-    rows = [e[0] for e in d]
-    tickets = [mul(e) for e in d]
+    rows = [(e & 0x3FC) >> 3 for e in d]
+    tickets = d
     seats   = range((min(rows)+1)*8,(max(rows)-1)*8)
 
     return  (set(seats) & set(tickets)) ^ set(seats)
-    
 
-
-def to_row(s):
-    return int(s.replace('F','0').replace('B','1'),2)
-
-def to_col(s):
-    return int(s.replace('L','0').replace('R','1'),2)
-
-def mul(t):
-    return t[0]*8+t[1]
+def bl_int(bl):
+    out = 0
+    for bit in bl:
+        out = (out << 1) | bit
+    return out
 
 ex_path     = os.path.dirname(os.path.abspath(__file__))
 with open(os.path.join(ex_path,"day5.txt")) as f:
-    d = [(to_row(a),to_col(b)) for x in f.read().split("\n") for (a,b) in re.findall(r'([FB]{7})([LR]{3})', x) ]
+    d = [bl_int([ord(z)%7%2 for z in y]) for y in f.read().split("\n")]
     print(f"Part 1: {part1(d)}")
     print(f"Part 2: {part2(d)}")
