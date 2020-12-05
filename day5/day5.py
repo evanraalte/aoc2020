@@ -11,14 +11,8 @@ def part2(d):
 
     return  (set(seats) & set(tickets)) ^ set(seats)
 
-def bl_int(bl):
-    out = 0
-    for bit in bl:
-        out = (out << 1) | bit
-    return out
-
 ex_path     = os.path.dirname(os.path.abspath(__file__))
 with open(os.path.join(ex_path,"day5.txt")) as f:
-    d = [bl_int([ord(z)%7%2 for z in y]) for y in f.read().split("\n")]
+    d = [int("".join([str(ord(z)%7%2) for z in y]),2) for y in f.read().split("\n")]
     print(f"Part 1: {part1(d)}")
     print(f"Part 2: {part2(d)}")
