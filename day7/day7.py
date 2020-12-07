@@ -18,18 +18,10 @@ def check_shiny_gold(bag_name, bags):
 def count_bags_in(bag_name, bags):
     if bags[bag_name] == {}: # End condition, contains no bags
         return 0
-    num_bags = 0
-    for child_bag_name,num in bags[bag_name].items():
-        num_bags += int(num)
-        num_bags += int(num)*count_bags_in(child_bag_name,bags)   
-    return num_bags
-
+    return sum(int(num) * (count_bags_in(child_bag_name,bags) + 1) for child_bag_name,num in bags[bag_name].items())
 
 def part1(bags):
-    count = 0
-    for bag_name in bags.keys():
-        count += check_shiny_gold(bag_name, bags)
-    return count
+    return sum(check_shiny_gold(bag_name, bags) for bag_name in bags.keys())
 
 
 def part2(bags):
