@@ -2,9 +2,6 @@ from itertools import count
 import os
 import re
 
-
-
-
 def check_shiny_gold(bag_name, bags):
     if bags[bag_name] == {}: # End condition
         return 0
@@ -31,9 +28,7 @@ def part2(bags):
 ex_path     = os.path.dirname(os.path.abspath(__file__))
 with open(os.path.join(ex_path,"day7.txt")) as f:
     d = [re.search(r'^(\w+ \w+) bags contain (.+)$',x).groups() for x in f.read().split('\n')]
+    bags = {bag: {b: a  for (a,b) in re.findall(r'(\d+) (\w+ \w+) bags?',contents)} for (bag,contents) in d}
 
-    bags = {}
-    for bag,contents in d:
-        bags[bag] = {b: a  for (a,b) in re.findall(r'(\d+) (\w+ \w+) bags?',contents)}
     print(f"Part 1: {part1(bags)}")
     print(f"Part 1: {part2(bags)}")
