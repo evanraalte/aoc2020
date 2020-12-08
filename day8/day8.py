@@ -51,5 +51,5 @@ with open(os.path.join(ex_path,"day8.txt")) as f:
     d = [re.search(r'^(\w+) ([-+]\d+)$',l).groups() for l in f.read().split('\n')]
     
 
-    # print(f"Part 1: {part1(d)}")
+    print(f"Part 1: {part1(d)}")
     print(f"Part 2: {part2(d)}")
