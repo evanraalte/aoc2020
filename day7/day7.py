@@ -9,7 +9,6 @@ def check_shiny_gold(bag_name, bags):
         return 1
     # If not found directly, check it through the other bags
     return any(map(lambda x: check_shiny_gold(x,bags),bags[bag_name].keys()))    
-    return 0
 
 
 def count_bags_in(bag_name, bags):
