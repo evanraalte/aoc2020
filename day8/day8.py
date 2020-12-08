@@ -21,7 +21,6 @@ def run_program(d):
             pc += int(arg)
         error = pc in coverage
         done  = pc == len(d)
-    print((acc,error))
     return (acc,error)
 
 def part1(d):
@@ -34,16 +33,13 @@ lut = {
 }
 
 def part2(d):
-    for i in range(0,len(d)):
-        if d[i][0] == "nop":
+    for (idx,(instr,arg)) in enumerate(d):
+        if instr in lut.keys():
             modified_program = d[:] # hardcopy!
-            modified_program[i] = ("jmp",d[i][1])
-        elif d[i][0] == "jmp":
-            modified_program = d[:] # hardcopy!
-            modified_program[i] = ("nop",d[i][1])
+            modified_program[idx] = (lut[instr],arg)
+            acc,err = run_program(modified_program)
         else: 
             continue
-        acc,err = run_program(modified_program)
         if err == 0:
             return acc
 
