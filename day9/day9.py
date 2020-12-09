@@ -11,7 +11,7 @@ def part1(d):
 
 def part2(d,p1):
     d = [a for a in d if a < p1 ] # no need to look at larger numbers
-    n = 3
+    n = 2
     val = False
     while not val: #
         val = next((min(d[i:i+n]) + max(d[i:i+n]) for i in range(0,len(d)-n) if sum(d[i:i+n]) == p1),False)
