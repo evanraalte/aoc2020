@@ -33,9 +33,8 @@ def part2(d):
 
 ex_path     = os.path.dirname(os.path.abspath(__file__))
 with open(os.path.join(ex_path,"/Users/Erik van Raalte/Documents/aoc2020/day10/day10.txt")) as f:
-    d = set([int(l) for l in f.read().split('\n')])
-    # p1 = part1(d.copy())
-    # print(f"Part 1: {p1}")
+    d = { int(l) for l in f.read().split('\n') } 
+    p1 = part1(d.copy())
+    print(f"Part 1: {p1}")
     p2 = part2(d)
-
-    # print(f"Part 2: {p2}")
+    print(f"Part 2: {p2}")
