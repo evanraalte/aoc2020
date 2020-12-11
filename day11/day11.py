@@ -9,12 +9,11 @@ def check_free(p,d,part2=False):
     adj = [(0, -1), (0, 1), (-1, 0), (-1, -1), (-1, 1), (1, 0), (1, -1), (1, 1)]
     
     seats = {'L' : 0, '.': 0, '#': 0}
-    if part2:
-        seats_to_check = []
-        for a in adj:
+
+    for a in adj:
+        if part2:
             seats[extrapolate(a,p,d)] += 1
-    else:
-        for a in adj:
+        else:
             ax,ay = a
             x = ax + px
             y = ay + py
@@ -22,6 +21,7 @@ def check_free(p,d,part2=False):
                 seats[d[(x,y)]] += 1 
             else: # outside of defined area, free area I guess
                 seats['.'] += 1
+
     return seats['L'] + seats['.']
 
 
@@ -85,7 +85,7 @@ def part2(d):
 
 
 ex_path     = os.path.dirname(os.path.abspath(__file__))
-with open(os.path.join(ex_path,"/Users/Erik van Raalte/Documents/aoc2020/day11/day11.txt")) as f:
+with open(os.path.join(ex_path,"day11.txt")) as f:
     d = { (x,y) : v for y,l in enumerate(f.read().split('\n')) for x,v in enumerate(l)} 
     p1 = part1(d.copy())
     print(f"Part 1: {p1}")
