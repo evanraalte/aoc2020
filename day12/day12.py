@@ -34,11 +34,9 @@ def part2(d):
     for instr,arg in d:
         if instr in dirs.keys():
             dx,dy = dirs[instr]
-            wx += dx*arg
-            wy += dy*arg
+            wx,wy = (wx + dx*arg,wy + dy*arg)
         elif instr == 'F':
-            px += wx*arg
-            py += wy*arg
+            px,py = (px + wx*arg,py + wy*arg)
         else:
             n = int(arg/90)
             r = (1,-1) if instr =='R' else (-1,1)
