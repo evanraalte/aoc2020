@@ -40,6 +40,16 @@ def part2(d):
         p = p + lcm_nums*n
     return p
 
+# better solution (from someone else):
+# def Part2():
+#     t = 0
+#     m = 1
+#     for (i, p) in schedule:
+#         while (t + i) % p:
+#             t += m
+#         m *= p
+#     return t
+
 
 ex_path     = os.path.dirname(os.path.abspath(__file__))
 with open(os.path.join(ex_path,"day13.txt")) as f:
@@ -49,7 +59,7 @@ with open(os.path.join(ex_path,"day13.txt")) as f:
     p1 = part1(ts,d1)
     print(f"Part 1: {p1}")
 
-    
+
     d2 = list(enumerate([ int(l) if l!='x' else 'x' for l in d]))
     d2 = [x for x in d2 if x[1]!= 'x']
     p2 = part2(d2)
