@@ -26,25 +26,18 @@ def lcm(denominators):
 
 
 def part2(d): 
-    found = False
-    # TODO: sort
-    # d.sort(key=lambda x: x[1])
-    t = 0
     nums = []
     p = d[0][1] # second period of first bus
     nums.append(p)
     for i in range(1,len(d)):
-        n = 1
-        pf = prime_factors(p*n+d[i][0])
+        n = 0
+        pf = []
         while d[i][1] not in pf:
             n+=1
-            lcm_nums = lcm(nums)
-            pf = prime_factors(p+lcm_nums*n+d[i][0])
-            # print(f"pf: {pf}, n: {n}, i: {i}")
+            pf = prime_factors(p+lcm(nums)*n+d[i][0])
         lcm_nums = lcm(nums)
         nums.append(d[i][1])
         p = p + lcm_nums*n
-        # print(f"p: {p}")
     return p
 
 
@@ -55,6 +48,8 @@ with open(os.path.join(ex_path,"day13.txt")) as f:
     d1 = [ int(l) for l in d if l != 'x']
     p1 = part1(ts,d1)
     print(f"Part 1: {p1}")
+
+    
     d2 = list(enumerate([ int(l) if l!='x' else 'x' for l in d]))
     d2 = [x for x in d2 if x[1]!= 'x']
     p2 = part2(d2)
