@@ -8,25 +8,17 @@ add_t = lambda x,y : tuple(map(sum,zip(x,y)))
 
 def get_next_state(c,state,d,neighbours):
     active = sum(1 for d_c in neighbours if d.get(add_t(c,d_c)) == '#')
-
-    if state =='#':
-        if (active == 2 or active == 3):
-            state_next = state
-        else:
+    state_next = state
+    if state =='#' and not (active == 2 or active == 3):
             state_next = '.'
-
-    elif state =='.':
-        if active == 3:
-            state_next = '#'
-        else:
-            state_next = state
-
+    elif state =='.' and active == 3:
+        state_next = '#'
     return state_next
 
 
 def iterate(d,neighbours):
     coords = []
-    for c in d.keys():
+    for c in d.keys(): # should only check when >0 dimensions are maxed
         for d_c in neighbours:
             c_n = add_t(c,d_c) 
             if not c_n in d:
@@ -63,7 +55,5 @@ with open(os.path.join(ex_path,"day17.txt")) as f:
     p1 = part1(d)
     print(f"Part 1: {p1}")
 
-
-    # d2 = { (x,y,0,0) : v for y,l in enumerate(raw) for x,v in enumerate(l)}
-    # p2 = part2(d2)
-    # print(f"Part 2: {p2}")
+    p2 = part2(d)
+    print(f"Part 2: {p2}")
