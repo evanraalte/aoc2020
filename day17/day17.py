@@ -18,7 +18,10 @@ def get_next_state(c,state,d,neighbours):
 
 def iterate(d,neighbours):
     coords = []
-    for c in d.keys(): # should only check when >0 dimensions are maxed
+
+    bounds = list(map(lambda x: (min(x),max(x)) ,map(list,zip(*d.keys()))))
+    relevant_cubes = [c for c in d.keys() if any(map(lambda x: x[0] in x[1], zip(c,bounds)))]
+    for c in relevant_cubes: # should only check when >0 dimensions are maxed
         for d_c in neighbours:
             c_n = add_t(c,d_c) 
             if not c_n in d:
