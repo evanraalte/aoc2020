@@ -1,0 +1,76 @@
+class Token:
+    def __str__(self):
+        return f"kind: {self.kind}, value: {self.value}"
+    def __init__(self,kind,value = None):
+        self.kind  = kind
+        self.value = value
+
+class Token_stream:
+    def __init__(self,stream):
+        self.buf  = None
+        self.full = False
+        self.stream = [c for c in stream]
+
+    def pop_from_stream(self):
+        try:
+            return self.stream.pop(0)
+        except Exception:
+            return None
+    def get(self):
+        if self.full:
+            self.full = False
+            return self.buf
+
+        if len(self.stream) == 0:
+            return Token(None,None)
+
+        buf = []
+        v = self.pop_from_stream()
+        if v in "+*()":
+            return Token(v)
+        elif v in "01234567890":
+            self.stream.insert(0,v) # push back into stream
+            while True:
+                v = self.pop_from_stream()
+                if v and v in "1234567890":
+                    buf.append(v)
+                else:
+                    if v: # insert last one back if it was not None
+                        self.stream.insert(0,v) 
+                    return Token("int",int("".join(buf)))
+        else:
+            raise Exception("Bad token")
+    def push_back(self,t):
+        assert self.full == False
+        self.buf = t
+        self.full = True
+
+def expression(ts):
+    left = primary(ts) 
+    t    = ts.get()
+    if t.kind == '+':
+        exp = expression(ts)
+        print(f"return {exp}+{left}")
+        return exp + left
+    elif t.kind == '*':
+        exp = expression(ts)
+        print(f"return {exp}*{left}")
+        return exp * left
+    else:     
+        print(f"return {left}")
+        ts.push_back(t)
+
+        return left   
+    
+def primary(ts):
+    t = ts.get()
+    if t.kind == "(":
+        d = expression(ts)
+        t = ts.get()
+        assert t.kind == ")"
+        return d
+    elif t.kind == "int":
+        return t.value
+    else:
+        raise Exception("Bad token")
+    pass
