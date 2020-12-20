@@ -6,32 +6,39 @@ from itertools import product
 
 # aba
 # aab
+vec = {}
+def set_vec(pos,val):
+    if not pos in vec:
+        vec[pos] = False
+    if vec[pos] == False:
+        vec[pos] = val
 
+def reset_vec():
+    vec = {}
 def check(message,deps, dep_num = 0, pos = 0,first=False):
     try:
         dep = deps[dep_num]
     except KeyError:
         dep = dep_num
-    # print(f"dep: {dep} (dep {dep_num}, pos: {pos}, msg: {message}")
+        
     if isinstance(dep,tuple):
         for d in dep:
             (valid,pos) = check(message,deps,d,pos)
-            # print(f"d: {d}, valid: {valid}, pos: {pos}")
             if not valid:
+                if first and len(message) == len(vec) and all(vec.values()):
+                    pass
+                    # print(vec)
+                    # reset_vec()
+                    # return (True,pos)
                 return (False,None)
-        pass
         if first:
             if len(message) == pos:
-                print(f"pos: {pos}, matches length!")
+                print(message)
+                reset_vec()
                 return (True,pos)
             else: 
-                return (False,None)
-        
-        return (True,pos)
-        
-        # if first and len(message) == pos:
-        # else:
-        #     return (False,None)
+                return (False,None)    
+        return (True,pos)  
     elif isinstance(dep,list): 
         left  = check(message,deps,dep[0],pos)
         right = check(message,deps,dep[1],pos)
@@ -42,38 +49,23 @@ def check(message,deps, dep_num = 0, pos = 0,first=False):
             return right
         else:
             return (False,None)
-
-        # return all(map(lambda x: check(message,deps,x[0],x[1]),zip(dep[0],pos))) or all(map(lambda x: check(message,deps,x[0],x[1]),zip(dep[1],pos)))
-    elif isinstance(dep,int):
-        return check(message,deps,dep,pos)
     elif isinstance(dep,str):
         try:
             ret = message[pos] == dep
-            # print(f"matching {message[pos]} == {dep} at pos {pos}: {message[pos] == dep}")
+            set_vec(pos,ret)
+            # if ret:
+                # print(f"matching {message[pos]} == {dep} at pos {pos}: {message[pos] == dep}")
             return (ret,pos+1)
         except IndexError:
             return (False,None)
 
-# def generate_from_rules(deps, rule_num = "0"):
-#     ret = []
-#         print(deps[rule_num])
-#         ret.append("".join([generate_from_rules(deps,x) for x in deps[rule_num]]))
-#     if isinstance(deps[rule_num],list):
-        
-#         for d in deps[rule_num]:
-            
-#     if isinstance(deps[rule_num],str) and  deps[rule_num] in "ab":
-#         return deps[rule_num]
-
-#     return ret
-
 def part1(messages,deps):
     # checks = generate_from_rules(deps)
-    return sum(check(message,deps,0,first=True)[0] for message in messages)
-    # return 0
-def part2(d):
-    
-    return 0
+    s = sum(check(message,deps,0,first=True)[0] for message in messages)
+    # print(f"msg: {vec}")
+    return s
+def part2(messages,deps):
+    return part1(messages,deps)
 
 
 ex_path     = os.path.dirname(os.path.abspath(__file__))
@@ -100,5 +92,8 @@ with open(os.path.join(ex_path,"day19-test.txt")) as f:
     p1 = part1(messages,deps)
     print(f"Part 1: {p1}")
 
-    # p2 = part2(d)
-    # print(f"Part 2: {p2}")
+    deps[8] =  [(42,) , (42,8)]   
+    deps[11] =  [(42,31), (42,11,31)]
+
+    p2 = part2(messages,deps)
+    print(f"Part 2: {p2}")
